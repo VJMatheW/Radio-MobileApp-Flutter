@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:radio_app/core/enums_and_variables/variables.dart';
-import 'package:radio_app/core/models/message.dart';
-import 'package:radio_app/core/models/tracksinfo.dart';
-import 'package:radio_app/core/viewmodels/home_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import '../enums_and_variables/variables.dart';
+import '../models/message.dart';
+import '../models/tracksinfo.dart';
+import '../viewmodels/home_model.dart';
 
 class Socket{
   static const String URL = Vars.BASE_URL+Vars.SOCKET_QUERY;
@@ -31,54 +32,34 @@ class Socket{
     socket.close();
   }
   
-  void connectAndRegisterEvents(){
-    if(socket.connected){
-      print("Already Connected and registered events, Please disconnect and connect");
-    }else{
-      print("Creating new connection");
-      socket.connect();
-      registerEvents();
-    }
+  void connectAndRegisterEvents(){   
+    print("Conecting socket connection");
+    socket = socket.connect();
+    registerEvents();
   }
 
   void disconnect(){
-    if(socket.disconnected){
-      print("Already disconnected");      
-    }else{
-      if(socket.connected){
-        print("Disconnecting: Executing ");
-        socket.disconnect();
-        socket = null;
-        socket = IO.io(URL, <String, dynamic>{
-          'transports': ['websocket'],
-          'autoConnect': false,
-          'extraHeaders': {'user_id': 'dart'} // optional
-        });
-      }else{
-        print("No connection exists for the socket");
-      }      
-    }
+    socket = socket.disconnect();    
   }
 
   void registerEvents(){
        
     socket.on('connect', (_) {
-      print('connect');
+      print('Socket Event : Connection');
     });    
 
     socket.on('connect_error', (_) {
-      print('connect_error');    
+      print('Socket Event : Connection Error');    
     });
 
     socket.on('disconnect', (_){
-      print('disconnect');
+      print('Socket Event : Disconnection');
     });    
 
     socket.on("trackinfo", (data){
-      print("Got Track Info");
+      print("Got Track Info from via Socket");
       Map<String, dynamic> tracksInfo = data;
-      // print(tracksInfo);
-      model.getTracksInfo(tracksInfo: TracksInfoModel.fromJson(tracksInfo));      
+      model.setTracksInfoFromSocket(tracksInfo: TracksInfoModel.fromJson(tracksInfo));      
     });
 
     socket.on("message", (data){   

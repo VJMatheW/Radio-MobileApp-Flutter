@@ -1,35 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/ui/router.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-void main() {  
-  runApp(MyApp());  
+import './ui/router.dart';
+import './core/viewmodels/init_model.dart';
+import 'locator.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
+  ThemeData theme;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(      
-      title: 'Radio App',
-      theme: ThemeData.light(),
-      onGenerateRoute: Router.generateRoute,
-      initialRoute: "/",
-      
+    return ChangeNotifierProvider<InitModel>.value(
+      value: locator<InitModel>(),
+      child: Consumer<InitModel>(
+        builder: (context, model, child) {
+          theme = model.getTheme;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Radio App',
+            theme: theme,
+            onGenerateRoute: Router.generateRoute,
+            initialRoute: '/',
+          );
+        },
+      ),
     );
   }
 }
 
-// TAB VIEW SAMPLE 
+// TAB VIEW SAMPLE
 //
 // home: DefaultTabController(
-//         length: 2, 
+//         length: 2,
 //         child: Scaffold(
 //           appBar: AppBar(
 //             leading: Icon(Icons.camera_alt),
 //             title: Text("GetNostalgic"),
 //             actions: <Widget>[
 //               Padding(
-//                 padding: EdgeInsets.symmetric(horizontal: 15) , 
+//                 padding: EdgeInsets.symmetric(horizontal: 15) ,
 //                 child: Icon(Icons.share)
 //               )
 //             ],
@@ -37,7 +57,7 @@ class MyApp extends StatelessWidget {
 //               tabs: <Widget>[
 //                 Tab(child: Row(
 //                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: <Widget>[            
+//                   children: <Widget>[
 //                     Icon(Icons.radio),
 //                     SizedBox(width: 10,),
 //                     Text("Radio", style: TextStyle(fontSize: 20),)
@@ -46,7 +66,7 @@ class MyApp extends StatelessWidget {
 //                 ),
 //                 Tab(child: Row(
 //                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: <Widget>[            
+//                   children: <Widget>[
 //                     Icon(Icons.queue_music),
 //                     SizedBox(width: 10,),
 //                     Text("Music Player", style: TextStyle(fontSize: 20),)

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_app/core/viewmodels/base_model.dart';
-import 'package:radio_app/locator.dart';
+import '../../core/viewmodels/base_model.dart';
+import '../../locator.dart';
 
 class BaseView<T extends BaseModel> extends StatefulWidget {
 

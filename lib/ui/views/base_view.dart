@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/viewmodels/init_model.dart';
+import '../../ui/utils.dart';
 
 class BaseView extends StatelessWidget {
 
@@ -11,7 +14,25 @@ class BaseView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(title: Text(title),),
+          appBar: AppBar(
+            title: Text(title),
+            actions: <Widget>[
+              SizedBox(width: screenAwareSize(1.0, context),),
+              Consumer<InitModel>(
+                builder: (context, model, child){
+                  return IconButton(
+                    icon: model.isDark 
+                      ? Icon(Icons.wb_sunny) : Icon(Icons.brightness_3),
+                    splashColor: Colors.transparent,
+                    onPressed: model.isDark 
+                      ? (){model.removeDarkTheme();} 
+                      : (){model.setDarkTheme();} 
+                  );
+                },
+              ),
+              
+            ],
+          ),
           drawer: Drawer(
             child: ListView(
               children: <Widget>[

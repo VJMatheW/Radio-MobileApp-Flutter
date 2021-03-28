@@ -1,28 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:radio_app/ui/views/dedicate_message_view.dart';
-import 'package:radio_app/ui/views/dedicate_song_view.dart';
-import 'package:radio_app/ui/views/player_view.dart';
-import 'package:radio_app/ui/views/radio_view.dart';
 
-class Router{
-  static Route<dynamic> generateRoute(RouteSettings settings){
-    switch (settings.name){
+import 'views/radio/dedicate_message_view.dart';
+import '../ui/views/radio/dedicate_song_view.dart';
+import 'views/music_player/player_view.dart';
+import '../ui/views/radio/radio_view.dart';
+
+class Router {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
       case "/":
-        return MaterialPageRoute(builder: (_)=> RadioView());
+        return MaterialPageRoute(builder: (_) => RadioView());
       case "/player":
-        return MaterialPageRoute(builder: (_)=> PlayerView());
+        return MaterialPageRoute(builder: (_) => PlayerView());
       case "/dedicate/song":
-        return MaterialPageRoute(builder: (_)=> DedicateSongView());
+        return MaterialPageRoute(builder: (_) => DedicateSongView());
       case "/dedicate/message":
-        return MaterialPageRoute(builder: (_)=> DedicateMessageView(settings.arguments));
+        return MaterialPageRoute(
+            builder: (_) => DedicateMessageView(settings.arguments));
       default:
         return MaterialPageRoute(
-          builder: (_)=> Scaffold(
-            body: Center(
-              child: Text("No router defined for ${settings.name}")
-            ),
-          ));
+            builder: (_) => Scaffold(
+                  body: Center(
+                      child: Text("No router defined for ${settings.name}")),
+                ));
     }
   }
 }

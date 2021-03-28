@@ -60,4 +60,14 @@ class TrackInfoModel {
       this._composer = obj['composer'] != null ? obj['composer'] : "";
       this._artist = obj['artist'] != null ? obj['artist'] : "";
     }
+
+    Map<String, String> asMap(){      
+      Map<String, String> trackInfo = Map<String, String>();      
+      trackInfo["title"] = getTitle;
+      trackInfo["album"] = getAlbum;
+      trackInfo["year"] = getYear;
+      trackInfo["composer"] = getComposer;
+      trackInfo["artist"] = getArtist;
+      return trackInfo;
+    }
 }

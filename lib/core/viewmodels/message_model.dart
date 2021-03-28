@@ -1,7 +1,7 @@
-import 'package:radio_app/core/enums_and_variables/info_state.dart';
-import 'package:radio_app/core/models/message.dart';
-import 'package:radio_app/core/services/apis.dart';
-import 'package:radio_app/core/viewmodels/base_model.dart';
+import '../../core/enums_and_variables/info_state.dart';
+import '../../core/models/message.dart';
+import '../../core/services/apis.dart';
+import '../../core/viewmodels/base_model.dart';
 
 class MessageModel extends BaseModel{  
 
